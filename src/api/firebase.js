@@ -46,6 +46,16 @@ export async function addNewProduct(product, imageUrl) {
   })
 }
 
+export async function getProducts() {
+  return get(ref(database, 'products'))
+      .then(snapshot => {
+        if (snapshot.exists()) {
+          return Object.values(snapshot.val());
+        }
+        return [];
+      })
+}
+
 async function adminUser(user) {
 
   return get(ref(database, 'admins'))

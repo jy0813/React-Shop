@@ -1,8 +1,13 @@
 import React from 'react';
+import Products from "../components/Products";
+import Banner from "../components/Banner";
 
 function Home(props) {
   return (
-      <div>홈</div>
+      <>
+        <Banner/>
+        <Products/>
+      </>
   );
 }
 
