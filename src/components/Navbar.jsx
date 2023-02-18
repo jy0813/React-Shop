@@ -3,7 +3,7 @@ import {FiShoppingBag} from "react-icons/fi";
 import {BsFillPencilFill} from "react-icons/bs";
 import User from "./User";
 import Button from "./ui/Button";
-import {useAuthContext} from "./context/AuthContext";
+import {useAuthContext} from "../context/AuthContext";
 
 function Navbar(props) {
  const {user, login, logout} = useAuthContext();
