@@ -4,6 +4,7 @@ import {BsFillPencilFill} from "react-icons/bs";
 import User from "./User";
 import Button from "./ui/Button";
 import {useAuthContext} from "../context/AuthContext";
+import CartStatus from "./CartStatus";
 
 function Navbar(props) {
  const {user, login, logout} = useAuthContext();
@@ -16,7 +17,7 @@ function Navbar(props) {
         </Link>
         <nav className='flex items-center gap-4 font-semibold'>
           <Link to='/products'>Products</Link>
-          {user && <Link to='/carts'>Carts</Link>}
+          {user && <Link to='/carts'><CartStatus/></Link>}
           {user && user.isAdmin && (<Link to='/products/new' className='text-2xl'><BsFillPencilFill/></Link>)}
           {user && <User user={user}/>}
           {!user && <Button text={'Login'} onClick={login}/>}
