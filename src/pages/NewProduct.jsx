@@ -1,29 +1,15 @@
 import React, {useState} from 'react';
 import Button from "../components/ui/Button";
 import {uploadImage} from "../api/uploader";
-import {addNewProduct} from "../api/firebase";
+import useProducts from "../hooks/useProducts";
+
 
 function NewProduct(props) {
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
   const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsUploading(true);
-    uploadImage(file)
-        .then(url => {
-          addNewProduct(product, file)
-              .then(() => {
-                setSuccess('성공적으로 제품이 추가되었습니다.');
-                setTimeout(() => {
-                  setSuccess(null);
-                }, 4000)
-              })
-        })
-        .finally(() => setIsUploading(false))
-
-  }
+  const {addProduct} = useProducts();
 
   const handleChange = (e) => {
     const {name, value, files} = e.target;
@@ -33,6 +19,28 @@ function NewProduct(props) {
     }
     setProduct((product) => ({...product, [name] : value}))
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsUploading(true);
+    uploadImage(file)
+      .then(url => {
+        addProduct.mutate(
+          {product, url},
+          {
+            onSuccess: () => {
+              setSuccess('성공적으로 제품이 추가되었습니다.');
+              setTimeout(() => {
+                setSuccess(null);
+              }, 4000)
+            },
+          }
+        )
+      })
+      .finally(() => setIsUploading(false))
+
+  }
+
   return (
       <section className='w-full text-center'>
         <h2 className='text-2xl font-blod my-4'>새로운 제품 등록</h2>
